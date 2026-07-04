@@ -1,0 +1,26 @@
+{
+    "datasets":  [
+                     {
+                         "symbol":  "BTC-USDT-SWAP",
+                         "datatype":  "demo",
+                         "kind":  "bin",
+                         "file":  "BTC-USDT-SWAP.zip",
+                         "lastYearMonth":  "2026-07"
+                     },
+                     {
+                         "symbol":  "ETH-USDT-SWAP",
+                         "datatype":  "demo",
+                         "kind":  "bin",
+                         "file":  "ETH-USDT-SWAP.zip",
+                         "lastYearMonth":  "2026-07"
+                     },
+                     {
+                         "symbol":  "SOL-USDT-SWAP",
+                         "datatype":  "demo",
+                         "kind":  "bin",
+                         "file":  "SOL-USDT-SWAP.zip",
+                         "lastYearMonth":  "2026-07"
+                     }
+                 ],
+    "version":  1
+}
