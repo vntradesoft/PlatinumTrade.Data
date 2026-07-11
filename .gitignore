@@ -8,5 +8,6 @@
 !sync-data.ps1
 !sync-btc-eth.ps1
 !README.md
+!README.vi.md
 !manifest.json
 !.gitignore

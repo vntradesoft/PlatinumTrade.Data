@@ -1,51 +1,53 @@
 # PlatinumTrade.Data
 
-Kho lưu trữ và phân phối dữ liệu lịch sử nến (Candlestick History Data) dành cho dự án **PlatinumTrade**.
+**English** (current) | [Tiếng Việt (Vietnamese)](README.vi.md)
 
-Repository này chứa tệp cấu hình `manifest.json` tổng điều hướng tải xuống và các tệp dữ liệu dạng nén `.zip` chứa lịch sử nến nhị phân của từng Symbol.
+Storage and distribution repository for candlestick history data used by the **PlatinumTrade** project.
 
----
-
-## 📂 Các tập lệnh tự động hóa
-
-Repository cung cấp hai tập lệnh PowerShell để tự động hóa quy trình đóng gói dữ liệu và đẩy lên GitHub:
-
-### 1. Tập lệnh chính: `sync-data.ps1`
-Tập lệnh đa năng giúp tự động hóa toàn bộ quy trình: quét dữ liệu từ máy cục bộ, đóng gói ZIP, tạo/cập nhật `manifest.json` tổng, đồng bộ hóa Git và đẩy trực tiếp lên GitHub Releases.
-
-### 2. Tập lệnh phím tắt: `sync-btc-eth.ps1`
-Tập lệnh phím tắt được thiết kế riêng để **chỉ tải lên và đồng bộ nhanh 2 Symbol: `BTC-USDT-SWAP` và `ETH-USDT-SWAP`**.
-*   Tập lệnh này gọi trực tiếp tập lệnh chính `sync-data.ps1` và truyền sẵn các tham số cấu hình sẵn.
-*   Bạn chỉ cần chọn loại dữ liệu (`demo` hoặc `real`) và script sẽ tự động thực hiện mọi thứ mà không cần nhập thêm bất kỳ thông tin nào khác.
+This repository contains the main `manifest.json` file which guides the client downloader, and the compressed `.zip` data packages containing binary candlestick history for each Symbol.
 
 ---
 
-## 🛠 Hướng dẫn thiết lập ban đầu (Prerequisites)
+## 📂 Automation Scripts
 
-Để tiến trình tự động hóa chạy trơn tru, bạn cần cấu hình một số công cụ dưới đây một lần duy nhất:
+The repository provides two PowerShell scripts to automate the data packaging and publishing process to GitHub:
 
-### 1. Cài đặt và đăng nhập GitHub CLI (`gh`)
-*   **Cài đặt:** Mở PowerShell chạy lệnh:
+### 1. Main Script: `sync-data.ps1`
+A versatile script that automates the entire workflow: scanning local data, packaging into ZIP files, creating/updating the main `manifest.json`, performing Git sync, and uploading assets directly to GitHub Releases.
+
+### 2. Shortcut Script: `sync-btc-eth.ps1`
+A helper script designed to **quickly sync only 2 Symbols: `BTC-USDT-SWAP` and `ETH-USDT-SWAP`**.
+*   It directly calls the main script `sync-data.ps1` with preconfigured parameters.
+*   You only need to select the datatype (`demo` or `real`) and the script handles the rest automatically without requiring any further input.
+
+---
+
+## 🛠 Prerequisites & Initial Setup
+
+To ensure the automation runs smoothly, you need to configure the following tools once:
+
+### 1. Install and log in to GitHub CLI (`gh`)
+*   **Installation:** Open PowerShell and run:
     ```powershell
     winget install --id GitHub.cli
     ```
-    *(Khởi động lại PowerShell sau khi cài đặt)*
-*   **Xác thực tài khoản (Yêu cầu tài khoản có quyền Write/Owner đối với repo này):**
+    *(Restart PowerShell after installation)*
+*   **Authenticate Account (Requires write/owner permission to this repo):**
     ```powershell
     gh auth login
     ```
-    Chọn **GitHub.com** -> Chọn **HTTPS** -> Chọn **Yes** để đồng bộ Git credentials -> Chọn **Login with a web browser** và nhập mã OTP xuất hiện trên màn hình vào trình duyệt để xác thực.
+    Select **GitHub.com** -> Select **HTTPS** -> Select **Yes** to sync Git credentials -> Select **Login with a web browser** and enter the OTP code displayed on the screen into your browser to authenticate.
 
-### 2. Thiết lập Git Remote cho thư mục cục bộ
-Nếu thư mục chứa script chưa được thiết lập kết nối tới GitHub, hãy chạy các lệnh sau để khởi tạo và liên kết:
+### 2. Configure Git Remote for Local Directory
+If your script directory is not yet connected to GitHub, run these commands to initialize and link:
 ```powershell
 git init
 git remote add origin https://github.com/vntradesoft/PlatinumTrade.Data.git
 git branch -M main
 ```
 
-> ⚠️ **Lưu ý sửa lỗi Git Push (Rejected):**
-> Nếu lệnh đẩy Git bị từ chối do lịch sử không đồng nhất với GitHub (lần đầu tiên chạy sau khi khởi tạo `git init`), hãy chạy lệnh sau để kéo code cũ về trước khi đẩy:
+> ⚠️ **Note on Git Push (Rejected) issues:**
+> If the git push is rejected due to history mismatch with GitHub (usually on the first run after `git init`), run the following command to pull remote commits before pushing:
 > ```powershell
 > git pull origin main --allow-unrelated-histories --rebase
 > git push origin main
@@ -53,43 +55,42 @@ git branch -M main
 
 ---
 
-## 🚀 Hướng dẫn sử dụng tập lệnh
+## 🚀 How to Use the Scripts
 
-Mở PowerShell tại thư mục này và sử dụng một trong các cách chạy sau:
+Open PowerShell in this directory and choose one of the following execution methods:
 
-### Cách 1: Đồng bộ nhanh BTC & ETH (Khuyên dùng khi cập nhật dữ liệu chính)
-Chạy tập lệnh phím tắt để đồng bộ nhanh 2 symbols này lên GitHub Release:
+### Option 1: Fast Sync BTC & ETH (Recommended for general data updates)
+Run the shortcut script to quickly sync these two symbols to GitHub Releases:
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\sync-btc-eth.ps1
 ```
 
-### Cách 2: Chạy tương tác tập lệnh chính (Interactive Mode)
-Chạy tập lệnh chính và nhập các tùy chọn theo hướng dẫn trực quan trên màn hình để cấu hình chi tiết:
+### Option 2: Run Main Script in Interactive Mode
+Run the main script and follow the on-screen prompts to configure the run details:
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\sync-data.ps1
 ```
 
-### Cách 3: Chạy tự động hoàn toàn (Automated / Non-Interactive Mode)
-Sử dụng các tham số dòng lệnh để chạy ngầm hoặc tích hợp CI/CD mà không cần nhập liệu thủ công:
+### Option 3: Run Main Script in Automated (Non-Interactive) Mode
+Use command-line parameters to run silently or integrate with CI/CD without manual input:
 
-*   **Tải lên tất cả dữ liệu Demo của các Symbol, tự động commit và đẩy lên Release `datasets-v1`:**
+*   **Upload all Demo datasets, commit changes, and publish to Release `datasets-v1`:**
     ```powershell
     powershell -ExecutionPolicy Bypass -File .\sync-data.ps1 -Datatype demo -Symbols * -GitSync -ReleaseUpload -TagName datasets-v1
     ```
-*   **Chỉ đóng gói và đồng bộ riêng một số Symbol cụ thể (ví dụ BTC và ETH):**
+*   **Only pack and sync specific Symbols (e.g. BTC and ETH):**
     ```powershell
     powershell -ExecutionPolicy Bypass -File .\sync-data.ps1 -Datatype demo -Symbols "BTC-USDT-SWAP,ETH-USDT-SWAP" -GitSync -ReleaseUpload
     ```
 
 ---
 
-## 📝 Chi tiết các tham số của `sync-data.ps1`
+## 📝 `sync-data.ps1` Parameter Reference
 
-| Tham số | Kiểu dữ liệu | Giá trị mặc định | Mô tả |
+| Parameter | Data Type | Default Value | Description |
 | :--- | :--- | :--- | :--- |
-| `-Datatype` | `string` | Không (sẽ hỏi) | Loại dữ liệu nguồn: `"demo"` hoặc `"real"`. |
-| `-Symbols` | `string` | Không (sẽ hỏi) | Danh sách Symbol cần xử lý (ví dụ: `"BTC-USDT-SWAP,ETH-USDT-SWAP"`), nhập chỉ số thứ tự, hoặc `"*"` để chọn tất cả. |
-| `-GitSync` | `switch` | Không (sẽ hỏi) | Bật tự động commit và push tệp `manifest.json` tổng lên Git. |
-| `-ReleaseUpload`| `switch` | Không (sẽ hỏi) | Bật tự động tải các file ZIP dữ liệu lên GitHub Releases làm tài nguyên tải về. |
-| `-TagName` | `string` | `"datasets-v1"` | Thẻ định danh Release trên GitHub (nơi lưu trữ các file ZIP tải về). |
-
+| `-Datatype` | `string` | None (will prompt) | The source data type: `"demo"` or `"real"`. |
+| `-Symbols` | `string` | None (will prompt) | Comma-separated list of symbols to process (e.g., `"BTC-USDT-SWAP,ETH-USDT-SWAP"`), indices, or `"*"` for all. |
+| `-GitSync` | `switch` | None (will prompt) | Automatically commits and pushes the updated `manifest.json` to Git. |
+| `-ReleaseUpload`| `switch` | None (will prompt) | Automatically uploads the ZIP files to GitHub Releases as download assets. |
+| `-TagName` | `string` | `"datasets-v1"` | The release tag on GitHub where ZIP assets are uploaded. |
