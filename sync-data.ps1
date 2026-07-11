@@ -28,7 +28,7 @@ if ([string]::IsNullOrWhiteSpace($Datatype)) {
 Write-Host "Selected Datatype: $Datatype" -ForegroundColor Green
 
 # 2. Resolve paths
-$appData = [System.IO.Path]::Combine($env:LOCALAPPDATA, "PlatinumTrade", "History", $Datatype, "bin")
+$appData = [System.IO.Path]::Combine($env:LOCALAPPDATA, "PlatinumTrade", "Histories", $Datatype, "bin")
 if (-not (Test-Path -LiteralPath $appData)) {
     throw "Source directory not found: $appData"
 }
