@@ -92,3 +92,4 @@ Sử dụng các tham số dòng lệnh để chạy ngầm hoặc tích hợp C
 | `-GitSync` | `switch` | Không (sẽ hỏi) | Bật tự động commit và push tệp `manifest.json` tổng lên Git. |
 | `-ReleaseUpload`| `switch` | Không (sẽ hỏi) | Bật tự động tải các file ZIP dữ liệu lên GitHub Releases làm tài nguyên tải về. |
 | `-TagName` | `string` | `"datasets-v1"` | Thẻ định danh Release trên GitHub (nơi lưu trữ các file ZIP tải về). |
+
