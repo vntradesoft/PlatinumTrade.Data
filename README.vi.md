@@ -1,7 +1,6 @@
 # PlatinumTrade.Data
 
-English | **Tiếng Việt** (bản đang xem)
-- [English version (Bản tiếng Anh)](README.md)
+[English](README.md) | **Tiếng Việt**
 
 Kho lưu trữ và phân phối dữ liệu lịch sử nến (Candlestick History Data) dành cho dự án **PlatinumTrade**.
 

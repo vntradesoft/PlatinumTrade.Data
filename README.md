@@ -1,6 +1,6 @@
 # PlatinumTrade.Data
 
-**English** (current) | [Tiếng Việt (Vietnamese)](README.vi.md)
+**English** | [Vietnamese](README.vi.md)
 
 Storage and distribution repository for candlestick history data used by the **PlatinumTrade** project.
 
